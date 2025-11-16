@@ -192,8 +192,8 @@ app.get('/', (req, res) => {
 
 // 启动服务器
 app.listen(PORT, () => {
-    console.log(`✨ 网址导航应用已启动！`);
-    console.log(`📍 访问地址: http://localhost:${PORT}`);
+    console.log(`网址导航应用已启动！`);
+    console.log(`访问地址: http://localhost:${PORT}`);
     console.log(`\nAPI 端点:`);
     console.log(`  GET  /api/navigation - 获取所有数据`);
     console.log(`  POST /api/navigation/link - 添加链接`);
