@@ -28,13 +28,13 @@ npm start
 
 ## 部署
 
-详见 [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)
-
 支持以下部署方式：
 - **Vercel**（免费，推荐）
 - **云服务器**（阿里云、腾讯云等）
 - **Docker**
 - **传统服务器**（需要 Node.js）
+
+关于具体部署步骤，请参考各云平台的官方文档。
 
 ## 项目结构
 

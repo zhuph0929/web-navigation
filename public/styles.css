@@ -37,30 +37,63 @@ header .subtitle {
 }
 
 .settings-btn {
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 20px;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.2);
     border: 2px solid white;
     color: white;
-    font-size: 1.5em;
+    font-size: 1.2em;
     cursor: pointer;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    z-index: 1000;
 }
 
 .settings-btn:hover {
-    background-color: rgba(255, 255, 255, 0.4);
-    transform: rotate(90deg);
+    background-color: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
 }
 
 .settings-btn.authenticated {
-    background-color: rgba(76, 209, 55, 0.6);
+    background-color: rgba(76, 209, 55, 0.7);
+}
+
+.settings-btn.authenticated:hover {
+    background-color: rgba(76, 209, 55, 0.9);
+    box-shadow: 0 0 15px rgba(76, 209, 55, 0.5);
+}
+
+.settings-btn-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.settings-btn-icon {
+    font-size: 1.5em;
+    transition: transform 0.3s ease;
+}
+
+.settings-btn.authenticated .settings-btn-icon {
+    animation: spin 0.6s ease;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .controls {
@@ -295,6 +328,47 @@ header .subtitle {
 .modal-content h2 {
     margin-bottom: 20px;
     color: #667eea;
+    text-align: center;
+    font-size: 1.3em;
+}
+
+/* 认证模态框特殊样式 */
+#authModal .modal-content {
+    max-width: 350px;
+    border-top: 4px solid #667eea;
+}
+
+#authModal .modal-content h2 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#authModal .modal-content p {
+    text-align: center;
+    color: #999;
+    font-size: 0.95em;
+    margin-bottom: 25px;
+}
+
+#authModal .form-group input {
+    padding: 12px;
+    font-size: 1em;
+}
+
+#authModal .form-group input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#authModal .form-actions {
+    gap: 12px;
+}
+
+#authModal .form-actions button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 6px;
+    font-weight: 500;
 }
 
 .close {
@@ -304,10 +378,11 @@ header .subtitle {
     font-weight: bold;
     cursor: pointer;
     line-height: 20px;
+    transition: color 0.3s ease;
 }
 
 .close:hover {
-    color: #000;
+    color: #667eea;
 }
 
 .form-group {
@@ -348,6 +423,35 @@ header .subtitle {
 
 .hidden {
     display: none;
+}
+
+/* 添加按钮容器样式 */
+.add-button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    padding: 20px 0;
+}
+
+.btn-add-large {
+    padding: 15px 40px;
+    font-size: 1.1em;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-add-large:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}
+
+.btn-add-large:active {
+    transform: translateY(0);
 }
 
 /* 响应式设计 */

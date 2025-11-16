@@ -217,23 +217,32 @@ document.addEventListener('DOMContentLoaded', function() {
 function renderCategories() {
     const container = document.getElementById('categoriesContainer');
     const categories = manager.data.categories;
+    const isAuth = authManager.isAuthenticated;
 
     if (categories.length === 0) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <p>还没有添加任何导航链接</p>
-                <button class="btn btn-primary" onclick="showAddModal()">立即添加</button>
-            </div>
-        `;
+        if (isAuth) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <p>还没有添加任何导航链接</p>
+                    <button class="btn btn-primary" onclick="showAddModal()">立即添加</button>
+                </div>
+            `;
+        } else {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <p>还没有添加任何导航链接</p>
+                </div>
+            `;
+        }
         return;
     }
 
-    container.innerHTML = categories.map(category => `
+    let html = categories.map(category => `
         <div class="category">
             <div class="category-title">
                 <span>${category.name}</span>
                 <div class="category-actions">
-                    <button class="btn btn-danger" onclick="deleteCategory(${category.id})">删除分类</button>
+                    ${isAuth ? `<button class="btn btn-danger" onclick="deleteCategory(${category.id})">删除分类</button>` : ''}
                 </div>
             </div>
             <div class="links-list">
@@ -244,14 +253,25 @@ function renderCategories() {
                             <span class="link-name">${link.name}</span>
                         </a>
                         <div class="link-actions">
-                            <button class="btn btn-edit" onclick="editLink(${category.id}, ${link.id})">编辑</button>
-                            <button class="btn btn-danger" onclick="deleteLink(${category.id}, ${link.id})">删除</button>
+                            ${isAuth ? `<button class="btn btn-edit" onclick="editLink(${category.id}, ${link.id})">编辑</button>
+                            <button class="btn btn-danger" onclick="deleteLink(${category.id}, ${link.id})">删除</button>` : ''}
                         </div>
                     </div>
                 `).join('')}
             </div>
         </div>
     `).join('');
+
+    // 在所有分类后添加"添加导航"按钮
+    if (isAuth) {
+        html += `
+        <div class="add-button-container">
+            <button class="btn btn-primary btn-add-large" onclick="showAddModal()">+ 添加新导航</button>
+        </div>
+        `;
+    }
+
+    container.innerHTML = html;
 }
 
 // 显示添加模态框
@@ -330,9 +350,14 @@ function handleFormSubmit(e) {
         manager.addLink(category, linkName, linkUrl, linkIcon);
     }
 
-    renderCategories();
     closeModal();
     document.getElementById('searchInput').value = '';
+
+    // 修改后自动注销
+    authManager.logout();
+    updateEditButtonVisibility();
+    renderCategories();
+    alert('修改成功！请重新登录以继续编辑。');
 }
 
 // 删除链接
@@ -422,6 +447,7 @@ function handlePasswordSubmit(e) {
     
     if (authManager.authenticate(password)) {
         closeAuthModal();
+        renderCategories();
         updateEditButtonVisibility();
         // 如果之前尝试打开添加模态框，现在打开它
         if (document.getElementById('addModal').classList.contains('pending-open')) {
@@ -446,21 +472,30 @@ function updateEditButtonVisibility() {
     
     // 更新齿轮按钮
     const settingsBtn = document.getElementById('settingsBtn');
+    if (!settingsBtn) return; // 防御性编程：如果按钮不存在就退出
+    
+    const settingsIcon = settingsBtn.querySelector('.settings-btn-icon');
+    if (!settingsIcon) return; // 防御性编程：如果图标不存在就退出
+    
     if (isAuth) {
-        settingsBtn.innerHTML = '⚙️ 退出编辑';
         settingsBtn.classList.add('authenticated');
+        settingsBtn.setAttribute('title', '点击退出编辑');
+        settingsIcon.textContent = '●';
     } else {
-        settingsBtn.innerHTML = '⚙️';
         settingsBtn.classList.remove('authenticated');
+        settingsBtn.setAttribute('title', '点击登录编辑');
+        settingsIcon.textContent = '⚙️';
     }
 }
 
 // 显示设置菜单
 function showSettingsMenu() {
     if (authManager.isAuthenticated) {
-        authManager.logout();
-        updateEditButtonVisibility();
-        renderCategories();
+        if (confirm('确定要退出编辑模式吗？')) {
+            authManager.logout();
+            updateEditButtonVisibility();
+            renderCategories();
+        }
     } else {
         showAuthModal();
     }

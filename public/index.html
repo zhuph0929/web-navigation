@@ -7,15 +7,20 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- 齿轮按钮 -->
+    <button class="settings-btn" id="settingsBtn" title="点击登录编辑">
+        <div class="settings-btn-content">
+            <div class="settings-btn-icon">⚙️</div>
+        </div>
+    </button>
+
     <div class="container">
         <header>
             <h1>🌐 网址导航</h1>
             <p class="subtitle">快速访问你常用的网站</p>
-            <button class="settings-btn" id="settingsBtn">⚙️</button>
         </header>
 
         <div class="controls">
-            <button class="btn btn-primary" onclick="showAddModal()">+ 添加导航</button>
             <input type="text" id="searchInput" class="search-box" placeholder="搜索导航...">
         </div>
 
