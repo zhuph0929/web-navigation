@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>网址导航 - 快速访问常用网站</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌐 网址导航</h1>
+            <p class="subtitle">快速访问你常用的网站</p>
+        </header>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="showAddModal()">+ 添加导航</button>
+            <input type="text" id="searchInput" class="search-box" placeholder="搜索导航...">
+        </div>
+
+        <div class="categories-container" id="categoriesContainer">
+            <!-- 分类和链接将动态加载 -->
+        </div>
+    </div>
+
+    <!-- 添加/编辑导航模态框 -->
+    <div class="modal" id="addModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>添加导航链接</h2>
+            <form id="linkForm">
+                <div class="form-group">
+                    <label>分类名称：</label>
+                    <input type="text" id="category" placeholder="例如：常用工具" required>
+                </div>
+                <div class="form-group">
+                    <label>链接名称：</label>
+                    <input type="text" id="linkName" placeholder="例如：Google" required>
+                </div>
+                <div class="form-group">
+                    <label>链接地址：</label>
+                    <input type="url" id="linkUrl" placeholder="https://example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>图标Emoji：</label>
+                    <input type="text" id="linkIcon" placeholder="例如：🔍" value="🔗" maxlength="2">
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeModal()">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
